@@ -1,0 +1,20 @@
+HashiCorp Configuration Language, HCL    --> terraform syntax
+
+terraform version
+
+terraform init // module > main.tf outputs.tf vars.tf
+
+vi main.tf
+
+``` main.tf
+
+variable "item" {
+    type = "string"
+    default = "This is an item"
+}
+
+```
+
+terraform console
+
+> var.item  // "This is an item"
