@@ -2,7 +2,7 @@ HashiCorp Configuration Language, HCL    --> terraform syntax
 
 terraform version
 
-terraform init // module > main.tf outputs.tf vars.tf
+terraform init // .terrafrom
 
 vi main.tf
 
@@ -18,3 +18,12 @@ variable "item" {
 terraform console
 
 > var.item  // "This is an item"
+
+
+terraform plan
+
+terraform apply
+
+    terraform plan -out update.terraform
+    terraform apply update.terraform
+    rm update.terraform
