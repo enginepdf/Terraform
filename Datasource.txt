@@ -1,12 +1,15 @@
 For certain providers (including AWS), terraform provides datasources which provide you with dynamic information
 
+
+```SecurityGroup.tf
+
 data "aws_ip_ranges" "eu-west-1_ec2" {
-    regions = [ "eu-west-1" ]
+    regions = [ "eu-west-1" ]  // filtering IPs by regions
     services = [ "ec2" ]
 }
 
 resource "aws_security_group" "SG_eu_west1" {
-    name = "SG_eu_west1"
+    name = "SG_eu_west1"   // Security Group name
 
     ingress { 
         from_port = "Number"
@@ -18,3 +21,5 @@ resource "aws_security_group" "SG_eu_west1" {
         Create_Date = "${data.aws_ip_ranges.eu-west-1_ec2.create_date}"
     }
 }
+
+```

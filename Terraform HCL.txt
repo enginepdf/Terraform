@@ -32,7 +32,7 @@ terraform console
 
 terraform plan
 
-terraform apply // a new terraform.tfstate and terraform.tfstate.backup are written to keep track of the remote state
+terraform apply // new terraform.tfstate and terraform.tfstate.backup are written to keep track of the remote state
 
     terraform plan -out update.terraform
     terraform apply update.terraform
