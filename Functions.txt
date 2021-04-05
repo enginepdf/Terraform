@@ -1,0 +1,25 @@
+* lookup(map("k", "v"), "k", "not found")   --> returns "v"
+
+    ```vars.tf
+
+        variable "AWS_ACCESS_KEY" {} 
+        variable "AWS_SECRET_KEY" {} 
+        variable "AWS_REGION" {
+            default = "eu-west-1"
+        } 
+        variable "AMIS" {
+            type = "map"
+            default = { 
+                us-east-1 = "ami-1" 
+                ap-northeast-2 = "ami-2" 
+            }
+        }
+
+    ```
+
+    ```instance.tf
+        resource "aws_instance" "example" { 
+        ami = "${lookup(var.AMIS, var.AWS_REGION)}"   // AWS_REGION==="ap-northeast-2" --> AMIS==="ami-2" 
+        instance_type = "t2.micro" 
+        }   
+    ```
