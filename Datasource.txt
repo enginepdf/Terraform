@@ -1,0 +1,20 @@
+For certain providers (including AWS), terraform provides datasources which provide you with dynamic information
+
+data "aws_ip_ranges" "eu-west-1_ec2" {
+    regions = [ "eu-west-1" ]
+    services = [ "ec2" ]
+}
+
+resource "aws_security_group" "SG_eu_west1" {
+    name = "SG_eu_west1"
+
+    ingress { 
+        from_port = "Number"
+        to_port = "Number"
+        protocol = "tcp"
+        cidr_blocks = [ "${data.aws_ip_ranges.eu-west-1_ec2.cidr_blocks}" ]   // only allows the IPs from these data in these IP ranges "eu-west-1_ec2.cidr_blocks" to "to_port". in this case port "Number"   cidr is a range of IP ranges
+    } 
+    tags {
+        Create_Date = "${data.aws_ip_ranges.eu-west-1_ec2.create_date}"
+    }
+}
