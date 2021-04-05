@@ -1,0 +1,35 @@
+* reference 
+
+    https://www.terraform.io/docs/language/resources/provisioners/remote-exec.html
+
+```instance.tf
+
+resource "aws_instance" "web1" {
+  # ...
+
+  provisioner "file" {
+    source      = "script.sh"
+    destination = "/tmp/script.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/script.sh",
+      "/tmp/script.sh args",
+    ]
+  }
+}
+
+
+resource "aws_instance" "web2" {
+  # ...
+
+  provisioner "remote-exec" {
+    inline = [
+      "puppet apply",
+      "consul join ${aws_instance.web.private_ip}",
+    ]
+  }
+}
+
+```
