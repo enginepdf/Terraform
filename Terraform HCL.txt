@@ -4,7 +4,6 @@ terraform version
 
 terraform init // Initializing the backend...
 
-
 ```backend.tf
     terraform { 
         backend "s3" {
@@ -13,6 +12,7 @@ terraform init // Initializing the backend...
         region = ""
         }
     }
+```
 
 vi main.tf (vars.tf etc)  // terraform.tfvars for local, not to be committed
 
@@ -32,7 +32,7 @@ terraform console
 
 terraform plan
 
-terraform apply // a new terraform.tfstate and terraform.tfstate.backup is written to keep track of the remote state
+terraform apply // a new terraform.tfstate and terraform.tfstate.backup are written to keep track of the remote state
 
     terraform plan -out update.terraform
     terraform apply update.terraform
