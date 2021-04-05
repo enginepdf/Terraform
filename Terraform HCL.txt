@@ -2,9 +2,19 @@ HashiCorp Configuration Language, HCL    --> terraform syntax
 
 terraform version
 
-terraform init // .terrafrom
+terraform init // Initializing the backend...
 
-vi main.tf
+
+```backend.tf
+    terraform { 
+        backend "s3" {
+        bucket = ""
+        key = "directory on S3"
+        region = ""
+        }
+    }
+
+vi main.tf (vars.tf etc)  // terraform.tfvars for local, not to be committed
 
 ``` main.tf
 
