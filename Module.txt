@@ -1,0 +1,9 @@
+```modules/output.tf   
+        output "instance1_publicIp" {
+            value = "${aws_instance.instance1.public_ip}"
+        }
+```
+
+output "output_publicIp" { 
+        value = "${module.modules.instance1_publicIp}"
+}
