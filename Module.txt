@@ -1,9 +1,17 @@
-```modules/output.tf   
+terraform get  // Download and update modules
+
+```modules/outputs.tf   
         output "instance1_publicIp" {
             value = "${aws_instance.instance1.public_ip}"
         }
 ```
 
+``output1.tf
+
 output "output_publicIp" { 
         value = "${module.modules.instance1_publicIp}"
 }
+
+```
+terraform show | grep public_ip
+terrafrom output  // output1 = "${module.modules.instance1_publicIp}"
