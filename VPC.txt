@@ -1,0 +1,79 @@
+```default_vpc.tf
+
+resource "aws_default_vpc" "default" {
+  tags = {
+    Name = "Default VPC"
+  }
+}
+
+resource "aws_default_subnet" "default_subnet1" {
+  availability_zone = "${var.AWS_REGION}a"
+
+  tags = {
+    Name = "subnet for ${var.AWS_REGION}a"
+  }
+}
+
+```
+
+
+```vpc.tf
+
+resource "aws_vpc" "vpc1" {
+  cidr_block           = "10.0.0.0/16"
+  instance_tenancy     = "default"
+  enable_dns_support   = "true"
+  enable_dns_hostnames = "true"
+  tags = {
+    Name = "vpc1"
+  }
+}
+
+resource "aws_subnet" "vpc1-public-1" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = "true"
+  availability_zone       = "eu-west-1a"
+
+  tags = {
+    Name = "vpc1-public-1"
+  }
+}
+
+resource "aws_subnet" "vpc1-private-1" {
+  vpc_id                  = aws_vpc.vpc1.id
+  cidr_block              = "10.0.2.0/24"
+  map_public_ip_on_launch = "false"
+  availability_zone       = "eu-west-1a"
+
+  tags = {
+    Name = "vpc1-private-1"
+  }
+}
+
+resource "aws_internet_gateway" "vpc1-gw" {
+  vpc_id = aws_vpc.vpc1.id
+
+  tags = {
+    Name = "vpc1_gw"
+  }
+}
+
+resource "aws_route_table" "vpc1-public-rt" {
+  vpc_id = aws_vpc.vpc1.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.vpc1-gw.id
+  }
+
+  tags = {
+    Name = "vpc1-public-rt"
+  }
+}
+
+resource "aws_route_table_association" "vpc1-public-association" {
+  subnet_id      = aws_subnet.vpc1-public-1.id
+  route_table_id = aws_route_table.vpc1-public-rt.id
+}
+
+```
