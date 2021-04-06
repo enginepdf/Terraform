@@ -2,6 +2,43 @@
 
     https://www.terraform.io/docs/language/resources/provisioners/remote-exec.html
 
+
+```instances.tf
+
+resource "aws_instance" "example" {
+  ami           = ""
+  instance_type = ""
+
+  subnet_id = aws_subnet. .id
+
+  vpc_security_group_ids = [aws_security_group. .id]
+
+  key_name = aws_key_pair. .key_name
+}
+
+resource "aws_eip" "example-eip" {   // aws_eip.example-eip.public_ip
+  instance = "${aws_instance.example.id}"
+  vpc = true
+}
+
+resource "aws_ebs_volume" "ebs-v1" {
+  availability_zone = ""
+  size              = 
+  type              = "gp2"
+  tags = {
+    Name = "ebs-v1"
+  }
+}
+
+resource "aws_volume_attachment" "ebs-v1-attachment" {
+  device_name = ""  // "/dev/xvdh"
+  volume_id   = aws_ebs_volume.ebs-v1.id
+  instance_id = aws_instance.example.id
+}
+
+```
+
+
 ```instance.tf
 
 resource "aws_instance" "web1" {
@@ -20,7 +57,6 @@ resource "aws_instance" "web1" {
   }
 }
 
-
 resource "aws_instance" "web2" {
   # ...
 
@@ -29,6 +65,20 @@ resource "aws_instance" "web2" {
       "puppet apply",
       "consul join ${aws_instance.web.private_ip}",
     ]
+  }
+}
+
+resource "aws_instance" "web3" {
+  # ...
+
+  provisioner "local-exec" {
+    command = "echo $FOO $BAR $BAZ >> env_vars.txt"
+
+    environment = {
+      FOO = "bar"
+      BAR = 1
+      BAZ = "true"
+    }
   }
 }
 
