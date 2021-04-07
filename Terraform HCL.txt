@@ -32,7 +32,7 @@ terraform console
 terraform plan
 
 terraform apply // new terraform.tfstate and terraform.tfstate.backup are written to keep track of the remote state
-                   terrform refresh can idenify differences between state file(.tfstate) and remote state
+                   terrform refresh can identify differences between state file(.tfstate) and remote state
 
     terraform plan -out update.terraform
     terraform apply update.terraform
