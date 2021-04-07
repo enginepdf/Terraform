@@ -1,4 +1,5 @@
 ```IAM.tf
+
 resource "aws_iam_group" "admin" {
     name = "admin"
 } 
@@ -9,7 +10,6 @@ resource "aws_iam_policy_attachment" "admin-attach" {
 }
 
 ```
-
 
 ```IAM.tf
 
@@ -32,12 +32,6 @@ resource "aws_iam_group_policy" "custom_policy" {
         } 
     EOF 
 }
-
-```
-
-
-```IAM.tf
-
 resource "aws_iam_user" "user1" {
     name = "user1"
 } 
