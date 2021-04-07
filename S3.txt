@@ -1,0 +1,27 @@
+reference 
+
+    https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket
+
+```S3.tf
+
+resource "aws_s3_bucket" "b" {
+    bucket = "mybucket-"
+    acl = "private"  // "public-read" "aws-exec-read" 
+    tags { 
+        Name = "Bucket1"
+        Environment = "Dev"
+    }
+
+    cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["POST"]
+    allowed_origins = ["https://s3-website-test.hashicorp.com"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
+   versioning {
+    enabled = false // true
+  }
+}
+
+```
