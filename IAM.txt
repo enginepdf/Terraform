@@ -3,6 +3,7 @@
 resource "aws_iam_group" "admin" {
     name = "admin"
 } 
+
 resource "aws_iam_policy_attachment" "admin-attach" {
     name = "admin-attach"
     groups = ["${aws_iam_group.admin.name}"]
@@ -16,6 +17,7 @@ resource "aws_iam_policy_attachment" "admin-attach" {
 resource "aws_iam_group" "admin" {
     name = "admin"
 } 
+
 resource "aws_iam_group_policy" "custom_policy" {
     name = "custom_policy"
     group = "${aws_iam_group.admin.id}"
@@ -32,15 +34,58 @@ resource "aws_iam_group_policy" "custom_policy" {
         } 
     EOF 
 }
+
 resource "aws_iam_user" "user1" {
     name = "user1"
 } 
+
 resource "aws_iam_group_membership" "admin-users" {
     name = "admin-users"
     users = [ 
         "${aws_iam_user.user1.name}", 
     ]
     group = "${aws_iam_group.admin.name}"
+}
+
+resource "aws_iam_role" "custom-role" {
+    name = "custom-role"
+    assume_role_policy = <<EOF
+    {
+        "Version": "2012-10-17", 
+        "Statement": [
+        { 
+            "Action": "sts:AssumeRole", 
+            "Principal": { 
+                "Service": "ec2.amazonaws.com" 
+            }, 
+            "Effect": "Allow", 
+            "Sid": "" 
+        }
+        ]
+    } 
+    EOF 
+}
+
+resource "aws_iam_role_policy" "custom-role-policy" {
+    name = "custom-role-policy"
+    role = "${aws_iam_role.custom-role.id}"
+    policy = <<EOF
+    {
+        "Version": "2012-10-17", 
+        "Statement": [
+            { 
+                "Effect": "Allow", 
+                "Action": [ 
+                    ""
+                ], 
+                "Resource": [ 
+                    "arn:aws:", 
+                    "arn:aws: /*" 
+                ]
+            }
+        ]
+    } 
+    EOF 
 }
 
 ```
